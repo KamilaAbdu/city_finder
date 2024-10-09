@@ -10,26 +10,25 @@ class CityListView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filteredCities =
+        cities.where((city) => !city.name.startsWith('name_ru_')).toList();
+
     return ListView.builder(
-      itemCount: cities.length,
+      itemCount: filteredCities.length,
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
           child: ListTile(
             title: Text(
-              cities[index].name,
+              filteredCities[index].name,
               style: TextStyle(color: Colors.brown),
             ),
             onTap: () {
-              // Чтение текущего состояния selectedCities
               final selectedCities = ref.read(selectedCitiesProvider);
-
-              // Проверка, добавлен ли уже выбранный город
-              if (!selectedCities.contains(cities[index])) {
-                // Обновление состояния выбранных городов
+              if (!selectedCities.contains(filteredCities[index])) {
                 ref.read(selectedCitiesProvider.notifier).state = [
                   ...selectedCities,
-                  cities[index]
+                  filteredCities[index]
                 ];
               }
             },
