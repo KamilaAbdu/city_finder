@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:city_finder/data/model/city.dart';
+import 'package:city_finder/core/model/city.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
