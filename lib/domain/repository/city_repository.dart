@@ -18,6 +18,7 @@ class CityRepository {
           (response.data as List).map((e) => City.fromJson(e)).toList();
       await _cacheCities(cities);
       return cities;
+      
     } catch (e) {
       return await _getCachedCities() ?? [];
     }

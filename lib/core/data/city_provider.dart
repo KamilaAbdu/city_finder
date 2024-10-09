@@ -5,7 +5,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final cityRepositoryProvider = Provider((ref) => CityRepository());
 
-final cityListProvider = FutureProvider<List<City>>((ref) async {
+final selectedCitiesProvider = StateProvider<List<City>>((ref) => []);
+
+final cityListProvider = StateNotifierProvider<CityListNotifier, List<City>>((ref) {
   final cityRepository = ref.read(cityRepositoryProvider);
-  return cityRepository.getCities();
+  return CityListNotifier(cityRepository);
 });
+
+class CityListNotifier extends StateNotifier<List<City>> {
+  final CityRepository _cityRepository;
+
+  CityListNotifier(this._cityRepository) : super([]);
+
+  Future<void> fetchCities({String? search}) async {
+    final cities = await _cityRepository.getCities(search: search);
+    state = cities;
+  }
+}
